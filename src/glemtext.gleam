@@ -24,6 +24,8 @@ pub type GemElement {
   Preformatted(alt: Option(String), text: String)
 }
 
+/// `parse` parses a string into a Gemtext Document.
+/// It will always return a valid document, and does not panic.
 pub fn parse(text: String) -> Document {
   text
   |> string.replace("\r\n", "\n")
