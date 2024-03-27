@@ -84,9 +84,18 @@ pub fn preformatted_leading_space_test() {
 }
 
 pub fn preformatted_text_after_closing_test() {
-  "```\nHello\n```shouldn't be here"
+  "```\nHello\nworld\n```shouldn't be here"
   |> parse
-  |> should.equal([Preformatted(alt: None, text: "Hello")])
+  |> should.equal([Preformatted(alt: None, text: "Hello\nworld")])
+}
+
+pub fn preformatted_unclosed_test() {
+  "# Hello\n```\nunclosed block\n# World"
+  |> parse
+  |> should.equal([
+    Heading(1, "Hello"),
+    Preformatted(alt: None, text: "unclosed block\n# World"),
+  ])
 }
 
 pub fn blockquote_test() {

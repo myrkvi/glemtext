@@ -2,11 +2,21 @@ import gleam/option.{type Option, None, Some}
 import gleam/string
 import gleam/list
 
+/// A `Document` is a list of Gemtext elements. As Gemtext "elements"
+/// are not nested, there is no need for a nested structure here, either.
+///
+/// As such, `Document` is a type alias to `List(GemElement)`
 pub type Document =
   List(GemElement)
 
+/// `GemElement` is an element, or possible line type for Gemtext.
 pub type GemElement {
+  /// `Text` is any text that doesn't have specific syntax for creating
+  /// an element. Note that empty lines are `Text("")`
   Text(String)
+
+  /// A link to another document, both Gemini and non-Gemini,
+  /// and optionally, a label.
   Link(to: String, label: Option(String))
   Heading(level: Int, text: String)
   ListItem(String)
@@ -97,7 +107,6 @@ fn parse_preformatted(in: Chars) -> #(GemElement, Chars) {
   let #(pre_lines, in) = take_preformatted_lines(rest)
   let pre_lines =
     pre_lines
-    |> list.reverse
     |> string.join("\n")
 
   #(Preformatted(alt: alt, text: pre_lines), in)
@@ -111,9 +120,7 @@ fn take_preformatted_lines(in: Chars) -> #(List(String), Chars) {
       let #(_, rest) = get_line(rest)
       #([], rest)
     }
-    [] -> {
-      panic as "AAAA"
-    }
+    [] -> #([], [])
     _ -> {
       let #(next, in) = take_preformatted_lines(rest)
       let line =
