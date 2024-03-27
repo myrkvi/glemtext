@@ -3,6 +3,7 @@ A small library for parsing Gemini's gemtext.
 
 [![Package Version](https://img.shields.io/hexpm/v/glemtext)](https://hex.pm/packages/glemtext)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glemtext/)
+![GitHub Actions: test.yml status](https://github.com/myrkvi/glemtext/actions/workflows/test.yml/badge.svg)
 
 ```sh
 gleam add glemtext
