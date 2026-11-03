@@ -118,16 +118,11 @@ fn take_preformatted_lines(in: Chars) -> #(List(String), Chars) {
   let #(line, rest) = get_line(in)
 
   case line {
-    ["`", "`", "`", ..rest] -> {
-      let #(_, rest) = get_line(rest)
-      #([], rest)
-    }
-    [] -> #([], [])
+    ["`", "`", "`", ..] -> #([], rest)
+    [] if rest == [] -> #([], [])
     _ -> {
       let #(next, in) = take_preformatted_lines(rest)
-      let line =
-        line
-        |> string.join("")
+      let line = line |> string.join("")
       #([line, ..next], in)
     }
   }

@@ -89,6 +89,21 @@ pub fn preformatted_text_after_closing_test() {
   |> should.equal([Preformatted(alt: None, text: "Hello\nworld")])
 }
 
+pub fn preformatted_text_blank_line_test() {
+  "```\nHello\n\nworld\n```"
+  |> parse
+  |> should.equal([Preformatted(alt: None, text: "Hello\n\nworld")])
+}
+
+pub fn preformatted_text_continuing_document_test() {
+  "```\nHello\nworld\n```\nShould be here"
+  |> parse
+  |> should.equal([
+    Preformatted(alt: None, text: "Hello\nworld"),
+    Text("Should be here"),
+  ])
+}
+
 pub fn preformatted_unclosed_test() {
   "# Hello\n```\nunclosed block\n# World"
   |> parse
