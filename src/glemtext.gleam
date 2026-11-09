@@ -189,13 +189,6 @@ fn until_nl(c) {
   c != "\n"
 }
 
-fn drop_lines(in: Chars) {
-  case in {
-    ["\n", ..rest] -> drop_lines(rest)
-    _ -> in
-  }
-}
-
 fn drop_ws(in: Chars) {
   case in {
     [" ", ..rest] -> drop_ws(rest)
